@@ -53,12 +53,6 @@ public class Mapa extends JPanel{
         }
     }
 
-    public void dibujarPacman(Graphics g){
-        g.setColor(Color.YELLOW);
-        g.fillOval(pacman.getX() * 30, getY() * 30, 30, 300);
-
-    }
-
     public static final Color AMARILLO_CLARO = new Color(255, 255, 153);
 
     @Override
@@ -66,6 +60,5 @@ public class Mapa extends JPanel{
 
         super.paintComponent(g);
         dibujarMapa(g);
-        dibujarPacman(g);
     }
 }
