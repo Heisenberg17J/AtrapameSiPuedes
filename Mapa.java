@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class Mapa extends JPanel{
@@ -6,38 +7,68 @@ public class Mapa extends JPanel{
     private final int LARGO;
     private final PacMan pacman;
     private final ControladorPacman controles;
-
-
-    int[][] mapa = {
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
-        {1,2,1,2,1,2,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1},
-        {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,2,2,1,0,0,0,2,1},
-        {1,2,2,2,2,2,1,2,2,2,1,2,2,2,1,1,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
-        {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
-        {1,2,1,2,1,2,1,2,1,2,2,2,1,2,2,2,1,2,1,2,2,2,1,2,1,0,0,1,2,1},
-        {1,2,1,1,1,2,1,2,1,1,1,2,1,2,1,2,1,2,1,1,1,2,1,2,1,1,1,1,2,1},
-        {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-    };
+    private final ArrayList<Fantasma> fantasmas;
+    private Boolean GameOver = false;
     
-    public Mapa(int ancho, int largo){
-        this.ANCHO = ancho;
-        this.LARGO = largo;
-        this.setPreferredSize(new Dimension(ANCHO,LARGO));
-        this.setBackground(Color.BLACK);
-
-
-        pacman = new PacMan(1, 1, 40);
-        controles = new ControladorPacman(pacman, mapa);
+    
+        int[][] mapa = {
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+            {1,2,1,2,1,2,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1},
+            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,2,2,1,0,0,0,2,1},
+            {1,2,2,2,2,2,1,2,2,2,1,2,2,2,1,1,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
+            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
+            {1,2,1,2,1,2,1,2,1,2,2,2,1,2,2,2,1,2,1,2,2,2,1,2,1,0,0,1,2,1},
+            {1,2,1,1,1,2,1,2,1,1,1,2,1,2,1,2,1,2,1,1,1,2,1,2,1,1,1,1,2,1},
+            {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
         
-
-        setFocusable(true);
-        addKeyListener(controles);
+        public Mapa(int ancho, int largo){
+            this.ANCHO = ancho;
+            this.LARGO = largo;
+            this.setPreferredSize(new Dimension(ANCHO,LARGO));
+            this.setBackground(Color.BLACK);
+    
+    
+            pacman = new PacMan(1, 1, 40);
+            controles = new ControladorPacman(pacman, mapa);
+            
+            fantasmas = new ArrayList<>();
+    
+            inicializarFantasmas();
+    
+            setFocusable(true);
+            addKeyListener(controles);
+        }
+    
+        private void inicializarFantasmas() {
+            // Crear fantasmas en posiciones iniciales y agregarlos a la lista
+            fantasmas.add(new Fantasma(26, 3, Color.RED, mapa, pacman));
+            fantasmas.add(new Fantasma(27, 2, Color.PINK, mapa, pacman));
+        }
+    
+        public void actualizar() {
+            pacman.actualizarPosicion(mapa); 
+            verificarColisiones();
+    
+            for (Fantasma fantasma : fantasmas) {
+                fantasma.mover(); // Movimiento aleatorio o implementa alguna lógica
+            }
+    
+            for (Fantasma fantasma : fantasmas) {
+                if (fantasma.getX() == pacman.getX() && fantasma.getY() == pacman.getY()) {
+                    GameOver = true;
+            }
+        }
     }
-
-    public void actualizar() {
-        pacman.actualizarPosicion(mapa); 
+    public Boolean getGameOver(){
+        return GameOver;
+    }
+    public void verificarColisiones(){
+        if (mapa[pacman.getY()][pacman.getX()] == 2){
+            mapa[pacman.getY()][pacman.getX()] = 0;
+        }
     }
 
     public void dibujarMapa(Graphics g){
@@ -91,5 +122,9 @@ public class Mapa extends JPanel{
         super.paintComponent(g);
         dibujarMapa(g);
         dibujarPacman(g);
+
+        for (Fantasma fantasma : fantasmas) {
+            fantasma.dibujar(g);
+        }
     }
 }

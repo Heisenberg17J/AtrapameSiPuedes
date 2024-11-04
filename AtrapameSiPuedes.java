@@ -12,6 +12,9 @@ public class AtrapameSiPuedes{
         timer = new Timer(100, e -> { // Ajustar a 50 ms para un movimiento más fluido
             mapa.actualizar(); // Llama al método para actualizar la posición de Pacman
             mapa.repaint(); // Vuelve a dibujar el mapa y Pacman
+            if(mapa.getGameOver()){
+                mostrarVentanaPerdiste();
+            }
         });
         timer.start();
     }
@@ -29,5 +32,10 @@ public class AtrapameSiPuedes{
         ventana.setResizable(false);
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
+    }
+    public void mostrarVentanaPerdiste() {
+        timer.stop(); // Detenemos el juego
+        JOptionPane.showMessageDialog(null, "Perdiste", "Juego terminado", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0); // Opcionalmente cerramos el juego o reiniciamos si prefieres
     }
 }

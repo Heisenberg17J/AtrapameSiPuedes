@@ -1,3 +1,6 @@
+
+import java.util.EmptyStackException;
+
 public class PacMan {
     private int x, y; // Posición en la matriz
     private int tamaño; // Tamaño de Pacman en píxeles
@@ -38,6 +41,7 @@ public class PacMan {
             y = nuevoY;
             
         }
+
     }
     private void actualizarDireccion() {
         if (dx == -1 && dy == 0) direccion = 180; // Izquierda
