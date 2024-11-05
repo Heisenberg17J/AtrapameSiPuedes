@@ -49,7 +49,10 @@ public class PacMan {
     private boolean esValido(int x, int y, int[][] mapa) {
         return x >= 0 && x < mapa[0].length && y >= 0 && y < mapa.length && mapa[y][x] != 1;
     }
-
+    public void setPacman(){
+        x = 1;
+        y = 1;
+    }
     public int getX() {
         return x;
     }

@@ -8,27 +8,17 @@ public class Mapa extends JPanel{
     private final PacMan pacman;
     private final ControladorPacman controles;
     private final ArrayList<Fantasma> fantasmas;
+    private final Mapas mapas;
+    private int[][] mapa;
     private Boolean GameOver = false;
     
-        int[][] mapa = {
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
-            {1,2,1,2,1,2,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1},
-            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,2,2,1,0,0,0,2,1},
-            {1,2,2,2,2,2,1,2,2,2,1,2,2,2,1,1,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
-            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
-            {1,2,1,2,1,2,1,2,1,2,2,2,1,2,2,2,1,2,1,2,2,2,1,2,1,0,0,1,2,1},
-            {1,2,1,1,1,2,1,2,1,1,1,2,1,2,1,2,1,2,1,1,1,2,1,2,1,1,1,1,2,1},
-            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-        };
-        
-        public Mapa(int ancho, int largo){
+        public Mapa(int ancho, int largo, int mapaIndex){
             this.ANCHO = ancho;
             this.LARGO = largo;
             this.setPreferredSize(new Dimension(ANCHO,LARGO));
             this.setBackground(Color.BLACK);
-    
+            mapas = new Mapas();
+            this.mapa = mapas.getMapa(mapaIndex);
     
             pacman = new PacMan(1, 1, 40);
             controles = new ControladorPacman(pacman, mapa);
@@ -46,7 +36,13 @@ public class Mapa extends JPanel{
             fantasmas.add(new Fantasma(26, 3, Color.RED, mapa, pacman));
             fantasmas.add(new Fantasma(27, 2, Color.PINK, mapa, pacman));
         }
-    
+        public void setMapa(int index){
+            mapa = mapas.getMapa(index);
+            pacman.setPacman();
+            fantasmas.set(0, new Fantasma(14, 4, Color.GREEN, mapa, pacman));
+            fantasmas.set(1, new Fantasma(15, 5, Color.GRAY, mapa, pacman));
+        }
+
         public void actualizar() {
             pacman.actualizarPosicion(mapa); 
             verificarColisiones();
@@ -61,6 +57,11 @@ public class Mapa extends JPanel{
             } // Pacman Colisiona con fantasma
         }
     }
+
+    public int [][] getMapa(){
+        return mapa;
+    }
+
     public Boolean getGameOver(){
         return GameOver;
     }
