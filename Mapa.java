@@ -83,10 +83,6 @@ public class Mapa extends JPanel{
                         g.setColor(AMARILLO_CLARO);
                         g.fillOval(columna * 40 + 10, fila * 40 + 10, 20, 20);
                     }
-                    case 3 -> {
-                        g.setColor(Color.YELLOW);
-                        g.fillOval(columna * 30 + 10, fila * 30 + 10, 30, 30);
-                    }
                     default -> {
                         g.setColor(Color.BLACK);
                         g.fillRect(columna * 40, fila * 40, 40, 40);
