@@ -2,9 +2,9 @@ import java.awt.*;
 
 public class Fantasma {
     private int x, y;
-    private Color color;
-    private int[][] mapa;
-    private PacMan pacman; // Referencia a PacMan para conocer su posición
+    private final Color color;
+    private final int[][] mapa;
+    private final PacMan pacman;
 
     public Fantasma(int x, int y, Color color, int[][] mapa, PacMan pacman) {
         this.x = x;
@@ -50,8 +50,18 @@ public class Fantasma {
     public void dibujar(Graphics g) {
         g.setColor(color);
         g.fillOval(x * 40, y * 40, 40, 40);
+        g.fillOval(x * 40 , y * 40 + 22, 16, 18);
+        g.fillOval(x * 40 + 10, y * 40 + 22, 16, 18);
+        g.fillOval(x * 40 + 25, y * 40 + 22, 16, 18);
+        g.setColor(Color.WHITE);
+        g.fillOval(x * 40 + 2, y * 40 + 5, 15, 15);
+        g.fillOval(x * 40 + 20, y * 40 + 5, 15, 15);
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getX() { 
+        return x; 
+    }
+    public int getY() { 
+        return y; 
+    }
 }

@@ -1,6 +1,3 @@
-
-import java.util.EmptyStackException;
-
 public class PacMan {
     private int x, y; // Posición en la matriz
     private int tamaño; // Tamaño de Pacman en píxeles
@@ -30,8 +27,7 @@ public class PacMan {
             dy = proximoDy;
             actualizarDireccion();
         }
-        
-        // Actualiza la posición en la dirección actual
+
         nuevoX = x + dx;
         nuevoY = y + dy;
 

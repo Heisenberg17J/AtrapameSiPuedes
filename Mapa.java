@@ -10,17 +10,16 @@ public class Mapa extends JPanel{
     private final ArrayList<Fantasma> fantasmas;
     private Boolean GameOver = false;
     
-    
         int[][] mapa = {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
             {1,2,1,2,1,2,1,1,1,2,1,2,1,2,1,1,1,2,1,1,1,1,1,2,1,1,1,1,2,1},
             {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,2,2,2,2,1,2,2,2,1,0,0,0,2,1},
             {1,2,2,2,2,2,1,2,2,2,1,2,2,2,1,1,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
             {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,0,0,1,2,1},
             {1,2,1,2,1,2,1,2,1,2,2,2,1,2,2,2,1,2,1,2,2,2,1,2,1,0,0,1,2,1},
             {1,2,1,1,1,2,1,2,1,1,1,2,1,2,1,2,1,2,1,1,1,2,1,2,1,1,1,1,2,1},
-            {0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
         
@@ -53,13 +52,13 @@ public class Mapa extends JPanel{
             verificarColisiones();
     
             for (Fantasma fantasma : fantasmas) {
-                fantasma.mover(); // Movimiento aleatorio o implementa alguna lógica
+                fantasma.mover(); // Movimiento aleatorio
             }
     
             for (Fantasma fantasma : fantasmas) {
                 if (fantasma.getX() == pacman.getX() && fantasma.getY() == pacman.getY()) {
                     GameOver = true;
-            }
+            } // Pacman Colisiona con fantasma
         }
     }
     public Boolean getGameOver(){
