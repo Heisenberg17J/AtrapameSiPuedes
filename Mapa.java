@@ -11,6 +11,7 @@ public class Mapa extends JPanel{
     private final Mapas mapas;
     private int[][] mapa;
     private Boolean GameOver = false;
+    private int puntuacion = 0;
     
         public Mapa(int ancho, int largo, int mapaIndex){
             this.ANCHO = ancho;
@@ -34,15 +35,29 @@ public class Mapa extends JPanel{
         private void inicializarFantasmas() {
             // Crear fantasmas en posiciones iniciales y agregarlos a la lista
             fantasmas.add(new Fantasma(26, 3, Color.RED, mapa, pacman));
-            fantasmas.add(new Fantasma(27, 2, Color.PINK, mapa, pacman));
         }
         public void setMapa(int index){
             mapa = mapas.getMapa(index);
             pacman.setPacman();
-            fantasmas.set(0, new Fantasma(14, 4, Color.GREEN, mapa, pacman));
-            fantasmas.set(1, new Fantasma(15, 5, Color.GRAY, mapa, pacman));
+            if (0 == index) {
+                fantasmas.set(0,new Fantasma(27, 3, Color.RED, mapa, pacman));
+            }
+            if(1 == index) {
+                fantasmas.set(0, new Fantasma(15, 5, Color.GRAY, mapa, pacman));
+            }
+            if(2 == index){
+                fantasmas.set(0, new Fantasma(1, 8, Color.MAGENTA, mapa, pacman));
+            }
         }
 
+        public void reiniciar(){
+            this.GameOver = false;
+        }
+
+        public boolean getGameOver() {
+            return GameOver;
+        }
+    
         public void actualizar() {
             pacman.actualizarPosicion(mapa); 
             verificarColisiones();
@@ -62,12 +77,11 @@ public class Mapa extends JPanel{
         return mapa;
     }
 
-    public Boolean getGameOver(){
-        return GameOver;
-    }
     public void verificarColisiones(){
         if (mapa[pacman.getY()][pacman.getX()] == 2){
             mapa[pacman.getY()][pacman.getX()] = 0;
+            puntuacion ++;
+            setPuntuacion(puntuacion);
         }
     }
 
@@ -109,6 +123,21 @@ public class Mapa extends JPanel{
         }
     }
 
+    private void dibujarPuntuacion(Graphics g){
+
+        String puntos= puntuacion+" Puntos";
+        Font fuente=new Font("Serif", Font.BOLD, 24);
+        g.setFont(fuente);
+        g.setColor(Color.WHITE);
+        g.drawString(puntos,(ANCHO-100) , 20);
+    }
+    public void setPuntuacion(int puntos){
+        puntuacion=puntos;
+    }
+
+    public int getPuntuacion(){
+        return puntuacion;
+    }
 
     public static final Color AMARILLO_CLARO = new Color(255, 255, 153);
 
@@ -118,6 +147,7 @@ public class Mapa extends JPanel{
         super.paintComponent(g);
         dibujarMapa(g);
         dibujarPacman(g);
+        dibujarPuntuacion(g);
 
         for (Fantasma fantasma : fantasmas) {
             fantasma.dibujar(g);
